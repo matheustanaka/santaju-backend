@@ -14,14 +14,13 @@ model Products {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
   title    String
   price    String
-  quantity Int
   client   Client @relation(fields: [clientId], references: [id])
   clientId String @db.ObjectId
 }
 
 model Client {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  cellphone Int
+  phone String
   name      String?
   products  Products[]
 }
