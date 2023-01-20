@@ -3,13 +3,12 @@ const prisma = new PrismaClient();
 
 exports.createProduct = async (req, res) => {
   try {
-    const { title, price, quantity, clientId } = req.body;
+    const { title, price, clientId } = req.body;
 
     const product = await prisma.products.create({
       data: {
         title,
         price,
-        quantity,
         clientId,
       },
     });
