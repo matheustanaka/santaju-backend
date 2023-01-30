@@ -4,7 +4,6 @@ const prisma = new PrismaClient();
 exports.createClient = async (req, res) => {
   try {
     const { name, phone } = req.body;
-
     const client = await prisma.client.create({
       data: {
         name,
@@ -22,7 +21,16 @@ exports.listAllClients = async (req, res) => {
   try {
     const listClients = await prisma.client.findMany({
       include: {
-        products: true,
+        Order: {
+          include: {
+            product: {
+              select: {
+                title: true,
+                price: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -52,7 +60,7 @@ exports.updateClient = async (req, res) => {
   try {
     const { id } = req.params;
     const updatedClient = await prisma.client.update({
-      where: { id: String(id) },
+      where: { id: Number(id) },
       data: {
         ...req.body,
       },
@@ -68,7 +76,7 @@ exports.deleteClient = async (req, res) => {
   try {
     const { id } = req.params;
     const deletedClient = await prisma.client.delete({
-      where: { id: String(id) },
+      where: { id: Number(id) },
     });
 
     res.status(200).json(deletedClient);
