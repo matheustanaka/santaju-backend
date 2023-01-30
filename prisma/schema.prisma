@@ -6,21 +6,35 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
-}
-
-model Products {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  title    String
-  price    String
-  client   Client @relation(fields: [clientId], references: [id])
-  clientId String @db.ObjectId
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model Client {
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  id    Int     @id @default(autoincrement())
+  name  String
   phone String
-  name      String?
-  products  Products[]
+  Order Order[]
+
+  @@map("clients")
+}
+
+model Product {
+  id    Int    @id @default(autoincrement())
+  title String
+  price String
+
+  Order Order[]
+
+  @@map("products")
+}
+
+model Order {
+  id         Int     @id @default(autoincrement())
+  id_product Int
+  product    Product @relation(fields: [id_product], references: [id])
+  id_client  Int
+  client     Client  @relation(fields: [id_client], references: [id])
+
+  @@map("orders")
 }
