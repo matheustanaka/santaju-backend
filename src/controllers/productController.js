@@ -3,17 +3,16 @@ const prisma = new PrismaClient();
 
 exports.createProduct = async (req, res) => {
   try {
-    const { title, price, clientId } = req.body;
+    const { title, price } = req.body;
 
-    const product = await prisma.products.create({
+    const product = await prisma.product.create({
       data: {
         title,
         price,
-        clientId,
       },
     });
 
-    res.status(202).json(product);
+    res.status(201).json(product);
   } catch (error) {
     res.status(400).json(error);
   }
@@ -21,7 +20,7 @@ exports.createProduct = async (req, res) => {
 
 exports.listAllProducts = async (req, res) => {
   try {
-    const listProducts = await prisma.products.findMany({});
+    const listProducts = await prisma.product.findMany({});
 
     res.status(200).json(listProducts);
   } catch (error) {
@@ -33,7 +32,7 @@ exports.updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
     console.log({ id });
-    const updatedProduct = await prisma.products.update({
+    const updatedProduct = await prisma.product.update({
       where: { id: String(id) },
       data: {
         ...req.body,
@@ -49,7 +48,7 @@ exports.updateProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const deletedClient = await prisma.products.delete({
+    const deletedClient = await prisma.product.delete({
       where: { id: String(id) },
     });
 
