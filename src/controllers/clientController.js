@@ -60,7 +60,7 @@ exports.updateClient = async (req, res) => {
   try {
     const { id } = req.params;
     const updatedClient = await prisma.client.update({
-      where: { id: Number(id) },
+      where: { id: String(id) },
       data: {
         ...req.body,
       },
@@ -76,7 +76,7 @@ exports.deleteClient = async (req, res) => {
   try {
     const { id } = req.params;
     const deletedClient = await prisma.client.delete({
-      where: { id: Number(id) },
+      where: { id: String(id) },
     });
 
     res.status(200).json(deletedClient);

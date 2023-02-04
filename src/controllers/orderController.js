@@ -64,8 +64,6 @@ exports.listAllOrders = async (req, res) => {
       },
     });
 
-    console.log(listOrders);
-
     res.status(200).json(listOrders);
   } catch (error) {
     res.status(400).json(error);
@@ -76,7 +74,7 @@ exports.listOneOrder = async (req, res) => {
   try {
     const { id } = req.params;
     const listOrder = await prisma.order.findUnique({
-      where: { id: Number(id) },
+      where: { id: String(id) },
       include: {
         product: {
           select: {
@@ -97,7 +95,7 @@ exports.updateOrder = async (req, res) => {
   try {
     const { id } = req.params;
     const updatedOrder = await prisma.order.update({
-      where: { id: Number(id) },
+      where: { id: String(id) },
       data: {
         ...req.body,
       },
@@ -113,7 +111,7 @@ exports.deleteOrder = async (req, res) => {
   try {
     const { id } = req.params;
     const deletedOrder = await prisma.order.delete({
-      where: { id: Number(id) },
+      where: { id: String(id) },
     });
 
     console.log("Deletado", deletedOrder);
