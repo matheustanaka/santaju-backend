@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Client {
-  id    Int     @id @default(autoincrement())
+  id    String  @id @default(uuid())
   name  String
   phone String
   Order Order[]
@@ -20,7 +20,7 @@ model Client {
 }
 
 model Product {
-  id    Int    @id @default(autoincrement())
+  id    String @id @default(uuid())
   title String
   price String
 
@@ -30,10 +30,10 @@ model Product {
 }
 
 model Order {
-  id         Int     @id @default(autoincrement())
-  id_product Int
+  id         String  @id @default(uuid())
+  id_product String
   product    Product @relation(fields: [id_product], references: [id])
-  id_client  Int
+  id_client  String
   client     Client  @relation(fields: [id_client], references: [id])
 
   @@map("orders")
